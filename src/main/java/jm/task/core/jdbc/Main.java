@@ -1,25 +1,18 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
+        UserServiceImpl userService = new UserServiceImpl();
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Fail");
-            throw new RuntimeException(e);
-        }
-
-        UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl();
-        userDaoJDBC.createUsersTable();
-        userDaoJDBC.saveUser("Vasia", "Pupkin", (byte) 12);
-        userDaoJDBC.saveUser("Alisa", "Ivanova", (byte) 20);
-        userDaoJDBC.saveUser("Samson", "Vostraykov", (byte) 35);
-        userDaoJDBC.saveUser("Anton", "Nedosekin", (byte) 12);
-        userDaoJDBC.getAllUsers();
-        userDaoJDBC.cleanUsersTable();
-        userDaoJDBC.dropUsersTable();
+        userService.createUsersTable();
+        userService.saveUser("Vasia", "Pupkin", (byte) 12);
+        userService.saveUser("Alisa", "Ivanova", (byte) 20);
+        userService.saveUser("Samson", "Vostraykov", (byte) 35);
+        userService.saveUser("Anton", "Nedosekin", (byte) 12);
+        userService.getAllUsers();
+        userService.cleanUsersTable();
+        userService.dropUsersTable();
     }
 }
