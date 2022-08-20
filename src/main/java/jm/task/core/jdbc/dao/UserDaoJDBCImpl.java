@@ -18,8 +18,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("CREATE TABLE users (ID INT AUTO_INCREMENT PRIMARY KEY , NAME VARCHAR(20), LASTNAME VARCHAR(20), AGE INT)");
+            conn.commit();
         } catch (SQLException e) {
-
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -27,8 +32,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("DROP TABLE users");
+            conn.commit();
         } catch (SQLException e) {
-
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -39,8 +49,15 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.setString(2, lastName);
             statement.setInt(3, age);
             statement.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             throw new RuntimeException(e);
+
         }
         System.out.printf("User с именем – %s добавлен в базу данных%n", name);
     }
@@ -49,7 +66,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("DELETE FROM users WHERE Id = " + id);
+            conn.commit();
         } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             throw new RuntimeException(e);
         }
     }
@@ -77,7 +100,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (Statement statement = conn.createStatement()) {
             statement.executeUpdate("DELETE FROM users");
+            conn.commit();
         } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             throw new RuntimeException(e);
         }
     }
